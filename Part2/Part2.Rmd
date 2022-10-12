@@ -1,0 +1,254 @@
+---
+title: "IntroToR"
+author: "UCLA Collaboratory"
+date: "10/21/2021"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+## R Markdown and Code Chunks
+
+### Overview of R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, 
+and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well 
+as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r NameOfChunk, include = FALSE,eval=FALSE}
+# Install tinytex package and run following commands if you want to export the document to pdf 
+install.packages("tinytex")
+library('tinytex')
+tinytex::install_tinytex()
+
+```
+
+
+
+```{r ExampleChunk, warning=FALSE, include=FALSE}
+
+# Include = FALSE means the code for this will not show up in the final report, 
+# change this to TRUE and see what happens.
+
+# Warning = FALSE means that any warnings that come up while the code is running 
+# will not be displayed. 
+
+# Within code chunks, the R code will be interpreted. Outside the code chunks it will not.
+
+# Outside the code chunks you can type in text and heading using Markdown to format and 
+# organize reports.
+
+# Create new headings outside the code chunch with one or more # symbols. For example, 
+# copy and paste this code outside the code chunk and see what it does:
+
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4, etc...
+
+# In the R markdown CheatSheet you will find a number of useful formatting commands for your text. 
+
+```
+
+In this lesson we will learn to install and load the packages necessary to do data analysis in R.
+
+```{r setup, include = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# This code chunk will load all the packages needed for this document. 
+
+# For reports like this, it is best to install the necessary packages and load the libraries 
+# first. That way you know ahead of time if you are going to run into any issues with operations later on.
+
+library('Hmisc')
+library('tidyr')
+library('dplyr')
+library('tibble')
+library('RColorBrewer')
+library('ggplot2')
+library('lubridate')
+library('knitr')
+
+```
+
+## Importing Data and Selecting Columns
+
+We will learn to import data into R and reshape it into formats that are useful for data visualization. For our research question, we will work with public COVD19 data to visualize the number of COVID19 cases per million for every state in the form of a heatmap and imagine other ways we would want to visualize this kind of information. 
+
+```{r DataImport, include = TRUE}
+
+# This is just repeating the commands that we did in the first day(s) to import our data.
+
+#Import the Covid Data Set
+CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = TRUE, sep = ",")
+
+#Import the States data set (including DC and PR)
+CountyPop <- read.table("CountyData.csv", header = TRUE, sep = ",")
+CountyPopFilter <- select(CountyPop, County, Per10K)
+
+
+#Import MMR Vaccine Rate Data set from Tidy Tuesday
+MMRVaccineRate <- read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-25/measles.csv', header = TRUE, sep = ",")
+
+```
+
+## Data Wrangling and Cleaning
+
+We will learn to handle imperfect data sets, calculate new columns, clean and rename data for downstream uses.
+
+```{r wrangling1, message=FALSE, warning=FALSE, include = TRUE}
+# Merging the tables
+VaxDataMerged <- left_join(CountyPopFilter, CountyVaxDataCA, by = c("County"="county"))
+
+# Calculating new columns and filtering data
+NormalizedVaxData <- VaxDataMerged %>%
+  mutate(VaxDensity = fully_vaccinated/Per10K) %>% 
+  filter(VaxDensity != "NA")
+
+# Selecting and renaming columns
+VaccinationRate <- NormalizedVaxData %>%
+  select(date, 
+         County, 
+         VaxDensity, 
+         fully_vaccinated, 
+         Per10K, 
+         at_least_one_dose, 
+         new_doses_administered, 
+         new_pfizer_doses, 
+         new_moderna_doses, 
+         new_jj_doses) 
+
+# Summarizing groups
+LastMonthSummarized <- CountyVaxDataCA %>%
+  filter(date >  ymd("2021-05-23")) %>%
+  group_by(county) %>%
+  summarize(MeanNewDoses = mean(new_doses_administered), 
+            NewPfizerDoses = mean(new_pfizer_doses), 
+            NewModernaDoses = mean(new_moderna_doses), 
+            NewJJDoses = mean(new_jj_doses))
+
+# Here we filter states that have populations over 10 million people
+VaccinationRate <- VaccinationRate %>%
+  filter(Per10K >= 100)
+
+kable(LastMonthSummarized[1:10,], caption = "A data table with 10 rows")
+
+```
+
+## Visualizing trends using ggplot
+
+In this lesson, we use ggplot to create trendlines for data that we work with.
+
+
+```{r VaxGrowth, include = TRUE}
+
+# Here we write the ggplot code. We use the ymd() funciton on our x axis
+# to make it easier to work with the dates in our table. We use geom_smooth
+# to create a trend line and we set some axis labels.
+
+VaxPlot <- ggplot(VaccinationRate, aes(x = ymd(date), y = fully_vaccinated, color = County)) + 
+  geom_smooth(method = "auto") + 
+  labs(x = "Date", 
+       y = "Fully Vaccinated (Total)", 
+       title = "Vaccinations in Large Counties")
+
+VaxPlot
+
+```
+
+```{r VaxFacets, include = TRUE}
+
+# We can easily separate plots so that we can analyze and compare
+# data in different ways using facet_wrap()
+
+VaxDensityPlotFacets <- ggplot(VaccinationRate, aes(ymd(date), VaxDensity, color = County)) +
+  geom_smooth(method = "auto") + 
+  geom_point(color = "black", size = 0.1, alpha = 0.5)+
+  facet_wrap(facets = "County") +
+  theme(axis.text = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Vaccinations per 10000 Residents in Large CA counties",
+       x = "Date",
+       y = "Vaccination Rate")
+
+VaxDensityPlotFacets
+
+```
+
+## Visualizing distribution with ggplot2
+
+We created a violin plots to look at data distribution.
+
+```{r ViolinVax, message=FALSE, warning=FALSE}
+
+# Selecting the data
+LastMonthVaccinations <- VaccinationRate %>%
+  filter(ymd(date) >= ymd("2021-09-19")) %>%
+  mutate(PfizerDensity = new_pfizer_doses/Per10K,
+         ModernaDensity = new_moderna_doses/Per10K,
+         JJDensity = new_jj_doses/Per10K)
+
+# The Plot includes mean and stadnard deviation bars
+CpmViolin <- ggplot(LastMonthVaccinations, aes(County, new_doses_administered, fill = County)) +
+  geom_violin(scale = "area")+
+  geom_dotplot(binaxis = "y", dotsize = 0.4, stackdir = "center", fill = "black", color = "white") +
+  scale_fill_brewer(palette = "Blues")+ 
+  labs(title = "Doses Administered In Large Counties",
+       y = "New Doses Administered")+
+  theme(axis.text.x=element_text(angle=45, hjust = 1))
+
+CpmViolin
+
+
+```
+
+## T tests
+
+Finally we learned to conduct some basic statistics on data that we want to compare. 
+
+``` {r StatTesting, include = TRUE}
+# First we filter tables based on the data that we want to compare. In this # case we are 
+# comparing the number of cases per million in the last month between Los Angeles
+# and San Diego.
+
+LAvax <- LastMonthVaccinations %>%
+  filter(County == "Los Angeles")
+
+SDvax <- LastMonthVaccinations %>%
+  filter(County =="San Diego")
+
+# We can then use the t.test() function on specific columns to calculate
+# our t-test comparing the two data sets.
+
+t.test(LAvax$VaxDensity, SDvax$VaxDensity)
+
+```
+
+
+
+## Challenge
+
+For your breakout room sessions. Take the code chunk below and create a plot that 
+is different in some way compared to the plots shown above. Feel free to use any of
+the data we have imported over the course of the session. Try using a different Geom 
+in ggplot, filtering the data differently, or changing some of the aes parameters. 
+
+``` {r YourPlotHere, include = FALSE}
+
+
+```
+
+
+
+
+## Instructions for optional homework assignment
+
+Create a new code chunk below this text and name it "QuizChunk". Create a new plot within the code chunk. You can copy and paste code from above, and modify it. Or you can write your own code or analysis using a different geometry or data set from the tidy tuesday space. Feel free to dig into the data set a bit further and be creative with the visualization you make. When you are finished, email me a copy of your R markdown file (the one that ends in .Rmd) by Thursday October 28th and I'll take a look and give you feedback if you request. Please keep your code to less than 50 lines, or I won't be able to evaluate it due to my own time limitations. 
+
+
