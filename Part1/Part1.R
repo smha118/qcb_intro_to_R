@@ -34,8 +34,7 @@
 # day workshop we will cover the topics described below. 
 
 ## Day1: Introduction to R Studio, how to find help, Rstudio cheat 
-## sheets, installing packages, loading libraries, data structures 
-## and classes, importing data, examining data sets.
+## sheets, variables, if else statements, loops, functions, installing packages, loading libraries, data structures and classes, importing data, examining data sets.
 
 ## Day2: Filtering, selecting and calculating columns with tidyr and dplyr, 
 ## grammar of graphics in ggplot, basic data visualization with ggplot2.
@@ -65,6 +64,10 @@
 
 # The top right is the "Global Environment" which is where information
 # about objects and variables is stored. 
+a=2
+a<-3
+a<-"word"
+a<-c(2,"ab",3)
 
 # The bottom right panel is arguably the most important panel: take a 
 # look at the series of tabs. The 'Files' tab can be used to navigate 
@@ -88,7 +91,45 @@
 
 
 # =====================================================================
-# Day 1.2: Installing and loading packages
+# Day 1.2: if else statements
+# =====================================================================
+a="b"
+print(a)
+
+b=5
+b+5
+
+c=c(1,2,3,4,5)
+
+
+
+if(a=="Hello R"){
+  print("a is indeed Hello R")
+}else{
+  print("Nope there's something else in")
+}
+
+
+# =====================================================================
+# Day 1.3: Loops
+# =====================================================================
+
+
+# =====================================================================
+# Day 1.4: Functions
+# =====================================================================
+test_function <- function(data){
+  return(mean(data))
+  
+}
+sample.data<-c(1,2,3,4,5)
+
+test_function(sample.data)
+
+
+# packages as collection of functions
+# =====================================================================
+# Day 1.5: Installing and loading packages
 # =====================================================================
 
 # Almost all R programming will require loading or installing specific 
@@ -111,6 +152,8 @@ install.packages('RColorBrewer')
 install.packages('ggplot2') 
 install.packages('lubridate') 
 
+install.packages(c('tidyr','dplyr','tibble','RColorBrewer','ggplot2','lubridate'))
+
 # In order to run code from an Rsource file, go to the line or highlight
 # the code that you want to run and hit Command/Control + Return. This 
 # will execute the line(s) of code in the console. Install the rest of 
@@ -129,13 +172,22 @@ install.packages('lubridate')
 # 'library()' command. See examples below.
 
 library('tidyr')
+library('dplyr')
+library('tibble')
+library('RColorBrewer')
+library('ggplot2')
+library('lubridate')
+
+package.to.load<-c('tidyr','dplyr','tibble','RColorBrewer','ggplot2','lubridate')
+lapply(package.to.load, library, character.only = TRUE)
+
 
 # Use the library() command for all the packages you just installed. 
 # Are there other ways to load libraries in R?
 # Notice any errors or warnings.
 
 # =====================================================================
-# Day 1.3: Finding Help
+# Day 1.6: Finding Help
 # =====================================================================
 
 # There are a lot of options when it comes to finding help in R. 
@@ -156,7 +208,7 @@ library('tidyr')
 # data transformation: 
 # https://4.files.edl.io/b9e2/07/12/19/142839-a23788fb-1d3a-4665-9dc4-33bfd442c296.pdf
 # data visualization with ggplot2: 
-# https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
+# https://github.com/smha118/qcb_intro_to_R/blob/main/CheatSheets/data-visualization-2.1.pdf
 
 # RStudio has created a bunch of these cheat sheets and they can all 
 # be accessed using RStudio Cloud or by searching RStudio cheat sheets. 
@@ -177,7 +229,7 @@ library('tidyr')
 # write them down here to look up later.
 
 # =====================================================================
-# Day 1.4: Importing Data
+# Day 1.7: Importing Data
 # =====================================================================
 
 # ---------------------------------------------------------------------
@@ -247,7 +299,7 @@ setwd("~/Path/To/Working/Directory/210126-IntroToR/Day1/Data")
 # command for reading a table is the read.table() command. We can read 
 # the table into an object using the assignment "<-" operator. 
 
-CountyPop <- read.table("CountyData", header = TRUE, sep = ",")
+CountyPop <- read.table("CountyData.csv", header = TRUE, sep = ",")
 
 # The read.csv() and read.csv2() commands can also be used for importing 
 # this data. Look at the documentation for read.table(). Notice the syntax,
@@ -283,6 +335,7 @@ gwjk4="tets"
 # operator <- to assign it to a variable.
 
 CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = XXXX, sep = "?")
+CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = T, sep = ",")
 
 
 # --------------------------------------------------------------------- 
@@ -353,6 +406,7 @@ class(CountyVaxDataCA)
 
 str(XXXXXXXX)
 
+
 # The classification is important because some operations can only function 
 # when the classifications match, or are of a particular type. You can change
 # classifications using base R commands such as:
@@ -368,9 +422,10 @@ class(CountyPop$County)
 # the auto-complete feature here.
 
 class(MMRVaccineRate$XXXXXXX)
+class(MMRVaccineRate$lat)
 
 class(CountyVaxDataCA$XXXXXX)
-
+str(CountyPop)
 # Notice that some of these variables are listed as factors. This won't
 # be a problem for us now, but let's practice changing these some of these
 # factors in to characters. Using the examples below change the class.
@@ -393,7 +448,7 @@ XXXXXX(CountyPop$County)
 # what it is being tasked to do.
 
 # You can use specific commands to take a look at the different column and 
-# rownames within various data sets. 
+# row.names within various data sets. 
 
 colnames(CountyVaxDataCA)
 rownames(CountyPop)
@@ -522,6 +577,9 @@ VaccineCA <- filter(MMRVaccineRate, state == "California")
 # powerful data wrangling tools. For more information on different 
 # operations that can be used check out the RStudio data transformation 
 # cheat sheets using dplyr() and tidyr(). 
+package.to.load<-c('tidyr','dplyr','tibble','RColorBrewer','ggplot2','lubridate')
+lapply(package.to.load, library, character.only = TRUE)
+
 
 CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = TRUE, sep = ",")
 
@@ -582,7 +640,7 @@ NormalizedVaxData <- VaxDataMerged %>%
   filter(VaxDensity > 10)
 
 # When performing calculations NA's can be introduced where calculations fail. 
-# It is a good practice to check your data every time you do a caluclation
+# It is a good practice to check your data every time you do a calculation
 # to be sure everything works as expected. NA's sometimes trip up some commands
 # in R so it is useful to know how to remove NA values from your table. 
 
