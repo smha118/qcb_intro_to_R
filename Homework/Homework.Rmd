@@ -1,0 +1,59 @@
+---
+title: "Homework"
+output: html_document
+date: "2022-10-20"
+---
+
+```{r setup, include=FALSE,warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For the homework, you will be given a differentially expressed gene file in csv format.<br />
+You need to read data into a dataframe, filter and add some columns, and create a volcano plot.
+
+
+```{r library, message=FALSE, warning=FALSE, include=TRUE,error=FALSE}
+#You will need following packages to finish the homework
+library(dplyr)
+library(ggplot2)
+```
+
+### 1. Read table
+Load "differentially_expressed_genes.csv" into a dataframe
+```{r read table, include=TRUE,warning=FALSE,error=TRUE}
+#read your table and load it onto deg variable below
+deg<-
+
+```
+
+### 2. Manipulate your data frame
+You will need 3 columns (avg_log2FC, p_val_adj, GENE) only for further downstream analysis.<br> Use select function to get those 3 columns.<br> After, create a new column with a column name log10_pval_adj and -log10(pval_adj) as value. (note: log10 is default R function to calculate log10 of given value)
+Lastly, you need to add another column name "upordown" to tell whether your gene is up or down regulated. You can check the directionality of genes by looking at avg_log2FC (if avg_log2FC > 0 up or avg_log2FC < 0 down).
+```{r Select and Mutate dataframe, include=TRUE,warning=FALSE,error=TRUE}
+#Add your code here
+deg.filtered <- 
+```
+
+### 3. Generate a volcano plot
+Now you are all ready to generate volcano plot. Use ggplot() and geom_point() to generate the plot
+Which column is used for x axis, y axis, and color?
+
+```{r Volcano plot, include=TRUE,warning=FALSE,error=TRUE}
+#Add your code here
+#plot<-ggplot(deg.filtered,aes())+geom_point()
+
+plot<-ggplot(deg.filtered,aes())+geom_point()
+
+plot
+```
+
+Name: <Write your name here><br />
+Student number: <Write your student number here><br />
+Email: <Write your email here><br />
+
+
+#### Knit your rmarkdown file into a html file and submit it to 
+<smha118@ucla.edu>
+ 
+
+
