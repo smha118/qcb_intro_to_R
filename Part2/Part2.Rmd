@@ -20,7 +20,7 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
 When you click the **Knit** button a document will be generated that includes both content as well 
-as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:    
 
 ```{r NameOfChunk, include = FALSE,eval=FALSE}
 # Install tinytex package and run following commands if you want to export the document to pdf 
@@ -103,7 +103,7 @@ MMRVaccineRate <- read.csv('https://raw.githubusercontent.com/rfordatascience/ti
 
 We will learn to handle imperfect data sets, calculate new columns, clean and rename data for downstream uses.
 
-```{r wrangling1, message=FALSE, warning=FALSE, include = TRUE}
+```{r wrangling1, message=FALSE, warning=FALSE, include=TRUE}
 # Merging the tables
 VaxDataMerged <- left_join(CountyPopFilter, CountyVaxDataCA, by = c("County"="county"))
 
@@ -185,8 +185,8 @@ VaxDensityPlotFacets
 
 We created a violin plots to look at data distribution.
 
-```{r ViolinVax, message=FALSE, warning=FALSE}
-
+```{r ViolinVax, message=TRUE, warning=FALSE}
+print("msg test")
 # Selecting the data
 LastMonthVaccinations <- VaccinationRate %>%
   filter(ymd(date) >= ymd("2021-09-19")) %>%
