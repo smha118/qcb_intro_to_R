@@ -1,7 +1,7 @@
 ---
 title: "IntroToR"
 author: "UCLA Collaboratory"
-date: "10/21/2021"
+date: "10/20/2022"
 output:
   html_document:
     toc: yes
@@ -19,11 +19,26 @@ output:
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, 
 and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
+
 When you click the **Knit** button a document will be generated that includes both content as well 
 as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:    
 
+
+```{r warning=TRUE, paged.print=TRUE}
+
+```
+
+```{r test, include=FALSE,warning=FALSE}
+
+
+```
+
 ```{r NameOfChunk, include = FALSE,eval=FALSE}
-# Install tinytex package and run following commands if you want to export the document to pdf 
+# Install tinytex package and run following commands if you want to export the document to pdf
+```
+
+
+```{r NameOfChunk, include = FALSE,eval=FALSE}
 install.packages("tinytex")
 library('tinytex')
 tinytex::install_tinytex()
@@ -247,8 +262,6 @@ in ggplot, filtering the data differently, or changing some of the aes parameter
 
 
 
-## Instructions for optional homework assignment
 
-Create a new code chunk below this text and name it "QuizChunk". Create a new plot within the code chunk. You can copy and paste code from above, and modify it. Or you can write your own code or analysis using a different geometry or data set from the tidy tuesday space. Feel free to dig into the data set a bit further and be creative with the visualization you make. When you are finished, email me a copy of your R markdown file (the one that ends in .Rmd) by Thursday October 28th and I'll take a look and give you feedback if you request. Please keep your code to less than 50 lines, or I won't be able to evaluate it due to my own time limitations. 
 
 
