@@ -47,13 +47,15 @@ plot<-ggplot(deg.filtered,aes())+geom_point()
 plot
 ```
 
+#### Important!! Please write down the following information
+Approximately, how long did it take to finish the homework? <Write your hours or minutes here><br />
 Name: <Write your name here><br />
 Student number: <Write your student number here><br />
 Email: <Write your email here><br />
 
 
 #### Knit your rmarkdown file into a html file and submit it to 
-<smha118@ucla.edu>
+<smha118@ucla.edu> with header "Intro to R - Homework"
  
 
 
