@@ -28,8 +28,7 @@
 # you can keep a record of everything you've done to manipulate and 
 # analyze your data. Those benefit you later, and can be published 
 # or shared with colleagues.
-#awlkgjewkalgjkl]
-#print("Hello R")
+print("Hello R")
 
 
 # This course is designed for learners who have little to no experience 
@@ -42,8 +41,7 @@
 ## Day2: Filtering, selecting and calculating columns with tidyr and dplyr, 
 ## grammar of graphics in ggplot, basic data visualization with ggplot2.
 
-## Day3: R markdown basics. More data visualization with ggplot2, peer learning
-## activities, writing and presenting reports.
+## Day3: R markdown basics. 
 
 # Take notes and annotate within this document by using the hashtag / pound #
 # symbol
@@ -68,14 +66,7 @@
 # The top right is the "Global Environment" which is where information
 # about objects and variables is stored. 
 a=1
-a<-2
-b<-4
-a<-"word"
-a<-c(2,3,4)
 
-1:10
-
-c<-data.frame(a=1:10,b=4:20,c=31:40)
 
 
 # The bottom right panel is arguably the most important panel: take a 
@@ -102,15 +93,7 @@ c<-data.frame(a=1:10,b=4:20,c=31:40)
 # =====================================================================
 # Day 1.2: if else statements
 # =====================================================================
-a="b"
-print(a)
 
-b=1
-
-
-c=c(1,2,3,4,5)
-
-b="R is good"
 
 # > greater than
 # < less than
@@ -187,6 +170,8 @@ b<-c(1,4,2,6,3)
 
 test_function(a)
 test_function(b)
+
+
 
 
 # packages as collection of functions
@@ -733,10 +718,10 @@ CountyPopFilter <- CountyPop %>% select(County, Population, Per10K) %>% filter(C
 
 
 NewDataFrame <- OldDataFrame %>%
-  Select(col1, col2, col3) %>% # select columns from OldDataFrame
+  select(col1, col2, col3) %>% # select columns from OldDataFrame
   group_by(col3) %>% # group by the information contained in col3
-  Mutate(col4 = col2 * 2) %>% # create a new col4 by multiplying col2 * 2
-  Filter(col1 != "NA") # remove all rows containing NA values in col1
+  mutate(col4 = col2 * 2) %>% # create a new col4 by multiplying col2 * 2
+  filter(col1 != "NA") # remove all rows containing NA values in col1
 
 # For our example, we want to calculate the number of COVID vaccinations depending
 # on the population density for every county. When we merged the table above, 
@@ -748,15 +733,11 @@ NormalizedVaxData <- VaxDataMerged %>%
   mutate(VaxDensity = fully_vaccinated/Per10K) %>% 
   filter(VaxDensity > 10) 
 unique(NormalizedVaxData$County)
-# When performing calculations NA's can be introduced where calculations fail. 
-# It is a good practice to check your data every time you do a calculation
-# to be sure everything works as expected. NA's sometimes trip up some commands
-# in R so it is useful to know how to remove NA values from your table. 
+# When performing calculations NA's can be introduced where calculations fail. It is a good practice to check your data every time you do a calculation to be sure everything works as expected. NA's sometimes trip up some commands in R so it is useful to know how to remove NA values from your table. 
 
 # We can remove rows containing NA using the filter command. In this particular 
-# command we use a 'relational operator'. != translates to 'is not equal to' 
-# when used in the filter command. What are some other relational operators 
-# used in R?
+# command we use a function 'is.na()'. ! (Means 'Not'; so !is.na() means is not na) in front of is.na() will give list of logical values that are not NA
+# when used in the filter command. What are some other relational operators used in R?
 
 
 
