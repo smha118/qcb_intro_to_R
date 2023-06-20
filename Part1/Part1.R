@@ -539,34 +539,7 @@ mean(CountyVaxDataCA$population)
 
 summarise(CountyVaxDataCA,mean=mean(population),min = min(population), n = n())
 
-# ---------------------------------------------------------------------
-# Cleaning Data with Dplyr
-# ---------------------------------------------------------------------
 
-# The easiest way to start working with and clean data frames is with the 
-# dplyr and tidyr packages. These packages offers a wide variety commands to 
-# filter and clean data frames in order to make data sets more manageable to
-# work with and visualize. We loaded them earlier so we can get started using
-# them.
-
-# We can use the select() command to select specific columns from any table.
-
-CountyPopFilter <- select(CountyPop, County, Per10K)
-
-# Notice that in the Global Environment, CountyPopFilter only has 2 variables 
-# instead of 4. We removed the 'Rank' variable and the non-normalized
-# 'Population' variable. 
-
-# We can use the filter() command to pick on specific rows characteristics.
-
-VaccineCA <- filter(MMRVaccineRate, state == "California")
-VaccineCA
-# Protip: Keep an eye on the observations and variables as you process 
-# through your data. This can help keep track of what is happening to the 
-# shape of your data. When you have lots of variables you have a wide data 
-# set. When you have lots of observations you have a longer data set. The 
-# data needs to be shaped in different ways for different data visualization 
-# packages.
 
 
 # Removing items from your Global Environment. If you are working with a 
@@ -617,26 +590,7 @@ VaccineCA
 # using for an analysis can lead to very significant real-world consequences 
 # (see reading recommendations below)
 
-
-# ---------------------------------------------------------------------
-# Recommended Reading
-# ---------------------------------------------------------------------
-
-# Dissecting racial bias in algorithm used to manage health of populations
-# by Obermeyer et al. 2019 https://doi.org/10.1126/science.aax2342
-# Weapons of Math Destruction by Cathy O' Neil
-# Algorithms of Oppression by Safiya Noble
-# Counting by Deborah Stone
-
-
-# Also take a look at the data transformation with dplyr cheat sheet:
-# https://4.files.edl.io/b9e2/07/12/19/142839-a23788fb-1d3a-4665-9dc4-33bfd442c296.pdf
-
-# The sections 'Manipulate Cases', 'Manipulate Variables', and 'Combine Tables'
-# will come in handy tomorrow. We will be using mutate commands to quickly calculate
-# new columns of data. We will be using Join commands to merge tables.
-# Take a look at the syntax and write your questions about usage here.
-
+#Finally, Let's learn how to save data in to csv format.
 write.csv(CountyPop,file="countypop2.csv")
 
 
@@ -670,6 +624,36 @@ CountyPopFilter <- select(CountyPop, County, Population, Per10K)
 
 ?gsub
 CountyPop$Population<-as.numeric(gsub(",","",CountyPop$Population))
+
+
+# ---------------------------------------------------------------------
+# Cleaning Data with Dplyr
+# ---------------------------------------------------------------------
+
+# The easiest way to start working with and clean data frames is with the 
+# dplyr and tidyr packages. These packages offers a wide variety commands to 
+# filter and clean data frames in order to make data sets more manageable to
+# work with and visualize. We loaded them earlier so we can get started using
+# them.
+
+# We can use the select() command to select specific columns from any table.
+
+CountyPopFilter <- select(CountyPop, County, Per10K)
+
+# Notice that in the Global Environment, CountyPopFilter only has 2 variables 
+# instead of 4. We removed the 'Rank' variable and the non-normalized
+# 'Population' variable. 
+
+# We can use the filter() command to pick on specific rows characteristics.
+
+VaccineCA <- filter(MMRVaccineRate, state == "California")
+VaccineCA
+# Protip: Keep an eye on the observations and variables as you process 
+# through your data. This can help keep track of what is happening to the 
+# shape of your data. When you have lots of variables you have a wide data 
+# set. When you have lots of observations you have a longer data set. The 
+# data needs to be shaped in different ways for different data visualization 
+# packages.
 
 # ---------------------------------------------------------------------
 # Merging Tables
