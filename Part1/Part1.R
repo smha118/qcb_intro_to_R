@@ -384,7 +384,7 @@ View(CountyPop)
 # operator <- to assign it to a variable.
 
 CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = T, sep = ",")
-CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = T, sep = ",")
+
 
 
 # --------------------------------------------------------------------- 
@@ -899,45 +899,16 @@ VaxViolin3 <- ggplot(LastMonthVaccinations, aes(x=County,new_doses_administered,
   geom_violin(scale = "width")+
   
   scale_fill_brewer(palette = "Blues")+
-  #stat_summary(fun.data = mean_sdl, fun.args = list(mult=1))+
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult=1))+
   #stat_summary(fun.data = mean_sdl,fun)+
-  stat_summary(fun.data=)
+  #stat_summary(fun.data=)
   labs(title="New Doses Administered", 
        x = "County")+
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6))
 
 
 
-# The stat_summary function is one of several ways to add a mean and standard 
-# deviation line. For the arguments in the stat_summary you can find them
-# in the help area, or through a Google search of the type of lines you want
-# to add. In this case: "fun.data = mean_sdl" generates the information 
-# needed to plot the mean and standard deviation; "fun.args = list(mult=1)" 
-# relates to the standard deviation multiplier. In our plot we have a mean
-# plus/minus one standard deviation.
 
-
-# What is another way to add average and standard deviaiton information to a
-# ggplot?
-  
-  data_summary <- function(x) {
-    m <- mean(x)
-    ymin <- m-sd(x)
-    ymax <- m+sd(x)
-    return(c(y=m,ymin=ymin,ymax=ymax))
-  }
-
-  
-  VaxViolin3 <- ggplot(LastMonthVaccinations, aes(x=County,new_doses_administered, fill = County)) +
-    geom_violin(scale = "width")+
-    scale_fill_brewer(palette = "Blues")+
-    geom_dotplot(binaxis='y',stackdir = 'center')+
-    stat_summary(fun.data = data_summary)+
-
-  labs(title="New Doses Administered", 
-       x = "County")+
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6))
-  VaxViolin3
 # ---------------------------------------------------------------------
 # Reflections and Connections
 # ---------------------------------------------------------------------
@@ -950,7 +921,7 @@ VaxViolin3 <- ggplot(LastMonthVaccinations, aes(x=County,new_doses_administered,
 
 # Look into the documentation for geom_violin() what does the scale
 # parameter do? 
-  ?geom_violin
+
 
 
 
