@@ -28,7 +28,12 @@
 # you can keep a record of everything you've done to manipulate and 
 # analyze your data. Those benefit you later, and can be published 
 # or shared with colleagues.
+
 print("Hello R")
+"Hello R"
+
+firstvar=1
+firstvar
 
 
 # This course is designed for learners who have little to no experience 
@@ -66,8 +71,10 @@ print("Hello R")
 # The top right is the "Global Environment" which is where information
 # about objects and variables is stored. 
 a=1
-
-
+a=""
+a=c(1,2,3,4)
+b=c("a","b","c","d")
+t=data.frame(a_value=a,b_value=b)
 
 # The bottom right panel is arguably the most important panel: take a 
 # look at the series of tabs. The 'Files' tab can be used to navigate 
@@ -88,7 +95,19 @@ a=1
 
 # Creating new R projects, R source files, and R markdown documents.
 # (look for the + at the top left)
+a=1
+a<-2
+b<-2.3
+c<-"R is fun"
 
+d<-c(1,2,4,5)
+d<-c("1","2","3","4")
+d<-as.numeric(d)
+class(d)
+d<-c("a","b","c","d")
+c<-c(1,2,3,4)
+
+e<-data.frame(char=d,num=c)
 
 # =====================================================================
 # Day 1.2: if else statements
@@ -100,13 +119,17 @@ a=1
 # >= greater or equal
 # <= lesser or equal
 # == equal
+# != not equal
+# %% remainder
+
+b<-1
 if( b=="R is cool"){
   print("yes")
   
 }else if(b<0.05){
   print("R is good")
-   
-}else{
+}
+else{
   print("no")
 }
 
@@ -119,16 +142,30 @@ if( b=="R is cool"){
 # =====================================================================
 a<-c(1,2,3,4,5)
 b<-c(5,4,3,2,1)
+a<-c(1:5)
+a
+for(i in b){
+  print(i)
+}
 
+
+c<-5
+# write notes here
+if(i == 1){
+  for(i in b){
+    print(i)
+  }
+}
 
 
 for(i in a){
   if(i == 1){
-    c=c+i
+    c=c+i #5+1 =6
   }else if(i == 3){
-    c=c*i
+    c=c*i #6*3=18
   }
 }
+
 
 for(i in b){
   if(i == 1){
@@ -157,23 +194,48 @@ test_function <- function(data){
   c<-10
   for(i in data){
     if(i == 1){
-      c=c+i
+      c=c+i #30+1=31
     }else if(i == 3){
-      c=c*i
+      c=c*i #30
     }
   }
   return(c)
 }
 
-a<-c(1,2,3,4,5)
-b<-c(1,4,2,6,3)
 
-test_function(a)
+a<-c(1,2,3,4,5)
+b<-c(3,4,2,6,1)
+
+b[1]
+b[2]
+1:length(b)
+for(i in 1:length(b)){
+  print(b[i])
+}
+for(i in b){
+  print(i)
+}
+a
+d<-test_function(a)
 test_function(b)
 
+b<-c(3,4,2,6,1,9) #Input for function
+c(3,8,4,6,2) # Expected result
+# Using a vector "b" above, create a function that returns a vector that doubles each element, except for when a number is multiple of 3
+3%%3
+4 %% 3
+6 %% 3
+test_function2 <- function(data){
+  for(i in 1:length(data)){
+    if(data[i] %% 3 != 0){
+      data[i]=data[i]*2
+    }
+  }  
+  return (data)
+}
 
-
-
+e<-test_function2(b)
+e
 # packages as collection of functions
 # =====================================================================
 # Day 1.5: Installing and loading packages
@@ -341,11 +403,13 @@ dir()
 # what the code would look like (this code wont work).
 
 setwd("~/Path/To/Working/Directory/210126-IntroToR/Day1/Data") 
-
+dir()
 # Now we're going to load our first data set into R. The base R 
 # command for reading a table is the read.table() command. We can read 
 # the table into an object using the assignment "<-" operator. 
 #For tab separated files use '\t' instead of ','
+CountyPop <- read.table("CountyData.csv",header=T,sep=",")
+CountyPop <- read.csv("CountyData.csv",header=T)
 CountyPop <- read.table("CountyData.csv", header = T, sep = ",")
 CountyPop.csv<-read.csv("CountyData.csv",header=T)
 CountyPop$County[2]
@@ -383,7 +447,7 @@ View(CountyPop)
 # "us_states_covid19_daily.csv". Use the read.csv command and the assignment
 # operator <- to assign it to a variable.
 
-CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = T, sep = ",")
+CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = T)
 
 
 
@@ -408,7 +472,7 @@ CountyVaxDataCA <- read.csv("cdph-vaccination-county-totals.csv", header = T, se
 
 # Give it a try. 
 
-MMRVaccineRate <- read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-25/measles.csv', header = T, sep = ",")
+MMRVaccineRate <- read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-25/measles.csv', header = T)
 
 
 # --------------------------------------------------------------------- 
@@ -450,7 +514,9 @@ MMRVaccineRate <- read.csv('https://raw.githubusercontent.com/rfordatascience/ti
 # so far is dataframes. Use the class() command on the objects stored in 
 # our global environment and you can see. You can also use the str()
 # command to look at the class of variables within a data frame
-
+CountyVaxDataCA$county
+CountyVaxDataCA[,2]
+class(CountyVaxDataCA$county)
 class(CountyVaxDataCA$county)
 
 str(CountyVaxDataCA)
@@ -467,17 +533,21 @@ str(CountyVaxDataCA)
 
 example<-"1"
 example<-as.numeric(example)
-class(example)
+example<-as.numeric(example)
+
 
 class(CountyPop$Population)
-CountyPop$Population <- as.integer(CountyPop$Population)
-CountyPop$Population
+
+as.numeric(CountyPop$Population)
+CountyPop$Population <- as.numeric(gsub(",","",CountyPop$Population))
+class(CountyPop$Population)
 
 
 genes<-c("gyrB","Apoe1","Apoe2","Ttr1","GAPOE")
+# Multiple condition can be written as || : or , && : and
 
 for(i in genes){
-  if(grepl("^Apoe",i,ignore.case = T)){
+  if(grepl("Apoe",i,ignore.case = T)){
     print(i)
   }
 }
@@ -495,7 +565,8 @@ str(MMRVaccineRate)
 # factors in to characters. Using the examples below change the class.
 
 #Convert into a character, or another class and see what happens
-CountyPop$County <- as.numeric(CountyPop$County)
+
+as.numeric(CountyPop$County)
 CountyPop<-read.table("CountyData.csv",header=T,sep=",")
 
 
@@ -521,10 +592,13 @@ XXXXXX(CountyPop$County)
 
 # You can use specific commands to take a look at the different column and 
 # row.names within various data sets. 
-
+CountyVaxDataCA$
+colnames(CountyVaxDataCA)[1]<-"Date"
 colnames(CountyVaxDataCA)[1]<-"Date"
 colnames(CountyVaxDataCA)
 rownames(CountyPop)
+
+CountyVaxDataCA$doses_administered
 
 # Protip: there are a wide variety of built in functions for summarizing data
 # below, I list a few of the more useful commands. Look them up in the 
@@ -534,13 +608,13 @@ rownames(CountyPop)
 # Position: first(), last(), nth(), which()
 # Count: n(), n_distint() 
 # Summarize: summarize(), str()
-
+mean(CountyVaxDataCA$population)
 mean(CountyVaxDataCA$population)
 
 summarise(CountyVaxDataCA,mean=mean(population),min = min(population), n = n())
 
 
-
+rm(d)
 
 # Removing items from your Global Environment. If you are working with a 
 # lot of different objects in the global environment it may be helpful to 
@@ -591,6 +665,7 @@ summarise(CountyVaxDataCA,mean=mean(population),min = min(population), n = n())
 # (see reading recommendations below)
 
 #Finally, Let's learn how to save data in to csv format.
+write.csv(CountyPop,file="countypop2.csv",row.names=F)
 write.csv(CountyPop,file="countypop2.csv")
 
 
@@ -638,7 +713,15 @@ CountyPop$Population<-as.numeric(gsub(",","",CountyPop$Population))
 
 # We can use the select() command to select specific columns from any table.
 
+
+
+colnames(CountyPop)
 CountyPopFilter <- select(CountyPop, County, Per10K)
+
+CountyPopFilter.LA.OC <- filter(CountyPopFilter,County %in% c("Los Angeles","Orange"))
+
+
+CountyVaxDataCA.LA.SD <- filter(CountyVaxDataCA,county %in% c("Los Angeles","San Diego"))
 
 # Notice that in the Global Environment, CountyPopFilter only has 2 variables 
 # instead of 4. We removed the 'Rank' variable and the non-normalized
@@ -670,8 +753,12 @@ VaccineCA
 
 
 
+left_join
+right_join
+inner_join
+full_join
+VaxDataMerged <- inner_join(CountyPopFilter.LA.OC, CountyVaxDataCA.LA.SD, by = c("County"="county"))
 
-VaxDataMerged <- left_join(CountyPopFilter, CountyVaxDataCA, by = c("County"="county"))
 
 
 # Notice how the tables merge together. Did it work? How did this operation 
@@ -697,6 +784,9 @@ VaxDataMerged <- left_join(CountyPopFilter, CountyVaxDataCA, by = c("County"="co
 # They looks like this %>%. Using pipes enables stringing together multiple 
 # dplyr operations in one step. Notice the syntax of this example. Organizing 
 # the code in this way can help with readability of the code.
+CountyPopFilter<-select(CountyPop,Population,Per10K)
+CountyPopFilter<-filter(CountyPopFilter,County=="Los Angeles")
+
 
 CountyPopFilter <- CountyPop %>% select(County, Population, Per10K) %>% filter(County=="Los Angeles")
 
@@ -716,6 +806,7 @@ colnames(VaxDataMerged)
 NormalizedVaxData <- VaxDataMerged %>%
   mutate(VaxDensity = fully_vaccinated/Per10K) %>% 
   filter(VaxDensity > 10) 
+colnames(NormalizedVaxData)
 unique(NormalizedVaxData$County)
 # When performing calculations NA's can be introduced where calculations fail. It is a good practice to check your data every time you do a calculation to be sure everything works as expected. NA's sometimes trip up some commands in R so it is useful to know how to remove NA values from your table. 
 
@@ -734,14 +825,33 @@ unique(NormalizedVaxData$County)
 
 # Lets break down a more sophisticated example where we simultaneously group by
 # specific features, and summarize data. 
+
 LastMonthSummarized <- CountyVaxDataCA %>%
-  filter(date > ymd("2021-09-19")) %>%
+  filter(Date > ymd("2021-09-19")) %>%
   group_by(county) %>%
   summarize(MeanNewDoses = mean(new_doses_administered), 
             NewPfizerDoses = mean(new_pfizer_doses), 
             NewModernaDoses = mean(new_moderna_doses), 
             NewJJDoses = mean(new_jj_doses))
 LastMonthSummarized
+
+
+# Combine the following two dataframes together - MMRVaccineRate and CountyPopFilter - (California only)
+temp<-left_join(CountyPopFilter,MMRVaccineRate,by=c("County"="county")) %>% filter(state=="California")
+
+save.image(file="day2.RData")
+load(file="day2.RData")
+#+,-, *, /
+# ifelse()
+CountyPop$Population
+CountyPop2 <- CountyPop %>% select(County,Per10K) %>% 
+  mutate(HighorLow=ifelse(CountyPop$Population>1000000,"High","Low")) 
+CountyPop2
+
+?mutate
+CountyPop2
+group_by()
+
 
 # =====================================================================
 # Day 2.2: Plotting with ggplot2
@@ -768,14 +878,19 @@ LastMonthSummarized
 # ---------------------------------------------------------------------
 # Creating a simple line plot with ggplot2
 # ---------------------------------------------------------------------
-
+colnames(NormalizedVaxData)
+colnames(NormalizedVaxData)[3]<-"date"
 VaccinationRate <- NormalizedVaxData %>%
-  select(date, County, VaxDensity, fully_vaccinated, Per10K, at_least_one_dose, new_doses_administered) 
+  select(date, County, VaxDensity, fully_vaccinated, Per10K, at_least_one_dose, new_doses_administered)
+
+
 
 VaccinationRate <- VaccinationRate %>%
   filter(Per10K >= 100)
+VaccinationRate
+class(VaccinationRate$date)
 
-plot <- ggplot(VaccinationRate, aes(x = ymd(date), y = fully_vaccinated, color = County)) + 
+plot<-ggplot(VaccinationRate, aes(x = ymd(date), y = fully_vaccinated, color = County)) + 
   geom_smooth(method = "auto") + 
   geom_point()+
   #geom_line()+
@@ -784,6 +899,11 @@ plot <- ggplot(VaccinationRate, aes(x = ymd(date), y = fully_vaccinated, color =
        title = "Vaccinations in Large Counties")
 
 #ymd(VaccinationRate$date)
+write.csv()
+save.image()
+saveRDS(plot,file="firstfigure.rds")
+
+plot<-readRDS(file="firstfigure.rds")
 plot
 ?geom_smooth()
 # This is a typical example of a plot created by ggplot. Notice the syntax 
@@ -811,9 +931,8 @@ ExamplePlot <- ggplot(DataFrame, aes(X, Y)) +
 # Now try to create an identical plot looking at case density for the large
 # instead of total cases. I've copied over the syntax of the code, now fill in 
 # the variables where we see XXXX to get the code to work.
-
-VaxDensityPlot <- ggplot(VaccinationRate, aes(ymd(date), VaxDensity, color = County)) +
-  geom_smooth(method = "auto")+ 
+VaccinationRate
+VaxDensityPlot <- ggplot(VaccinationRate, aes(ymd(date), VaxDensity, color = County)) +geom_smooth(method = "auto")+ 
   labs(x = "Date", 
        y = "Full Vaccinations per 10k Residents", 
        title = "Vaccination Density in Large Counties")
@@ -830,9 +949,9 @@ VaxDensityPlotFacets <- ggplot(VaccinationRate, aes(ymd(date), VaxDensity, color
 VaxDensityPlotFacets
 VaxDensityPlotFacets <- ggplot(VaccinationRate, aes(ymd(date), VaxDensity, color = County)) +
   geom_smooth(method = "auto") + 
-  facet_wrap(facets = "County")
+  facet_grid(facets = "County")
 
-
+VaxDensityPlotFacets
 
 # ---------------------------------------------------------------------
 # Creating Violin plots with ggplot2
@@ -845,7 +964,7 @@ VaxDensityPlotFacets <- ggplot(VaccinationRate, aes(ymd(date), VaxDensity, color
 
 LastMonthVaccinations <- VaccinationRate %>%
   filter(ymd(date) >= ymd("2021-09-19"))
-
+LastMonthVaccinations
 # What is happening in this filter step? Try running the script without 
 # the ymd() command.
 LastMonthVaccinations2 <- VaccinationRate %>%
@@ -860,7 +979,8 @@ LastMonthVaccinations2 <- VaccinationRate %>%
 VaxViolin <- ggplot(LastMonthVaccinations, aes(County, new_doses_administered, fill = County)) +
   geom_violin(scale = "width")+
   geom_dotplot(binaxis = "y", dotsize = 0.5, stackdir = "center", fill = "black") +
-  scale_fill_brewer(palette = "Blues")+ 
+  #scale_fill_brewer(palette = "Greys")+ 
+  scale_fill_manual(values=c("#A4A7E2","blue","green","red","blue","green","red","blue","green"))+
   labs(title = "Doses Administered In Large Counties",
        y = "New Doses Administered")
 
@@ -887,10 +1007,10 @@ VaxViolin2
 VaxViolin3 <- ggplot(LastMonthVaccinations, aes(County, new_doses_administered, fill = County)) +
   geom_violin(scale = "width")+
   scale_fill_brewer(palette = "Blues")+
-  stat_summary(fun.data = mean_sdl, fun.args = list(mult=1))+
+  stat_summary(fun.data = mean_se, fun.args = list(mult=1))+
   labs(title="New Doses Administered", 
        x = "County")+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 10))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 15))
 
 ?mean_sdl
 VaxViolin3
@@ -900,14 +1020,14 @@ VaxViolin3 <- ggplot(LastMonthVaccinations, aes(x=County,new_doses_administered,
   
   scale_fill_brewer(palette = "Blues")+
   stat_summary(fun.data = mean_sdl, fun.args = list(mult=1))+
-  #stat_summary(fun.data = mean_sdl,fun)+
+  #stat_summary(fun.data = mean_se,fun)+
   #stat_summary(fun.data=)
   labs(title="New Doses Administered", 
        x = "County")+
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6))
 
 
-
+VaxViolin3
 
 # ---------------------------------------------------------------------
 # Reflections and Connections
@@ -960,7 +1080,7 @@ SDvax <- LastMonthVaccinations %>%
 
 # Use the t.test() function in order to compare the VaxDensity columns like this:
 
-t.test(LAvax$VaxDensity, SDvax$VaxDensity)
+t.test(LAvax$new_doses_administered, SDvax$new_doses_administered)
 
 VaxViolin3
 
@@ -976,7 +1096,7 @@ SDvax <- LastMonthVaccinations %>%
 OrangeVax <- LastMonthVaccinations %>%
   filter(County  =="Orange")
 
-t.test(SDvax$VaxDensity, OrangeVax$VaxDensity)
+t.test(SDvax$new_doses_administered, OrangeVax$new_doses_administered)
 
 # R has a powerful suite of tools that can be used for statistical testing. 
 # T-testing is barely scratching the surface. Here are some other commands 
