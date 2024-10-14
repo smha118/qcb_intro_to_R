@@ -29,12 +29,6 @@
 # analyze your data. Those benefit you later, and can be published 
 # or shared with colleagues.
 
-print("Hello R")
-"Hello R"
-
-firstvar=1
-firstvar
-
 
 # This course is designed for learners who have little to no experience 
 # with R programming, but want to learn. Over the course of this three 
@@ -70,11 +64,53 @@ firstvar
 
 # The top right is the "Global Environment" which is where information
 # about objects and variables is stored. 
+
+
+#Basic Data Types
+# numeric = 0.5, 4, 787
+# integer = 2
+# complex = 10+5i
+# chracter = "any letter(s) or word(s)"
+# logical = boolean (e.g TRUE or FALSE)
+#
+
+numeric.var=2.5
+int.var=3
+int.var=3L
+complex.var=10+5i
+logical = TRUE
+class(a)
 a=1
 a=""
-a=c(1,2,3,4)
-b=c("a","b","c","d")
-t=data.frame(a_value=a,b_value=b)
+
+
+
+
+#Data structures
+# Vector : a list of items that are of the same type
+# List : A list in R may have different data types.
+# Matrix: two dimensional vector
+# Array : multidimentional vector
+# Data Frame: Similar to the Matrix, it is two dimentional. But it can have multiple varaible types.
+# Factor: Often used to categorize data. (Useful when using ggplot2 - day2)
+
+
+vector.var=c(1,2,3,4)
+list.var=list(1,"apple","banana")
+matrix.var=matrix(c(1:9),nrow=3,ncol=3)
+array.var=array(c(1:24),dim = c(4,3,2))
+
+data.frame.var <- data.frame (
+  numeric.vec = c(1:3),
+  character.vec=c("apple","banana","blueberry")
+)
+
+
+factor.var <- factor(c(1,"test","eg"))
+factor.var <- factor(c(1,"test","eg"),levels=c("eg","test",1))
+
+
+
 
 # The bottom right panel is arguably the most important panel: take a 
 # look at the series of tabs. The 'Files' tab can be used to navigate 
@@ -95,19 +131,9 @@ t=data.frame(a_value=a,b_value=b)
 
 # Creating new R projects, R source files, and R markdown documents.
 # (look for the + at the top left)
-a=1
-a<-2
-b<-2.3
-c<-"R is fun"
 
-d<-c(1,2,4,5)
-d<-c("1","2","3","4")
-d<-as.numeric(d)
-class(d)
-d<-c("a","b","c","d")
-c<-c(1,2,3,4)
 
-e<-data.frame(char=d,num=c)
+#
 
 # =====================================================================
 # Day 1.2: if else statements
@@ -120,18 +146,16 @@ e<-data.frame(char=d,num=c)
 # <= lesser or equal
 # == equal
 # != not equal
-# %% remainder
 
 b<-1
 if( b=="R is cool"){
   print("yes")
-  
 }else if(b<0.05){
   print("R is good")
-}
-else{
+}else{
   print("no")
 }
+
 
 
 
@@ -178,6 +202,16 @@ for(i in b){
 
 
 
+genes<-c("gyrB","Apoe1","Apoe2","Ttr1","GAPOE")
+# Multiple condition can be written as || : or , && : and
+
+for(i in genes){
+  if(grepl("Apoe",i,ignore.case = T)){
+    print(i)
+  }
+}
+
+
 
 c<-1
 while(c<10){
@@ -222,9 +256,7 @@ test_function(b)
 b<-c(3,4,2,6,1,9) #Input for function
 c(3,8,4,6,2) # Expected result
 # Using a vector "b" above, create a function that returns a vector that doubles each element, except for when a number is multiple of 3
-3%%3
-4 %% 3
-6 %% 3
+
 test_function2 <- function(data){
   for(i in 1:length(data)){
     if(data[i] %% 3 != 0){
@@ -287,8 +319,7 @@ library('RColorBrewer')
 library('ggplot2')
 library('lubridate')
 
-package.to.load<-c('tidyr','dplyr','tibble','RColorBrewer','ggplot2','lubridate')
-lapply(package.to.load, library, character.only = TRUE)
+
 
 
 # Use the library() command for all the packages you just installed. 
@@ -543,14 +574,7 @@ CountyPop$Population <- as.numeric(gsub(",","",CountyPop$Population))
 class(CountyPop$Population)
 
 
-genes<-c("gyrB","Apoe1","Apoe2","Ttr1","GAPOE")
-# Multiple condition can be written as || : or , && : and
 
-for(i in genes){
-  if(grepl("Apoe",i,ignore.case = T)){
-    print(i)
-  }
-}
 
 # Fill in the XXXX with a column in the data sets we imported. Try using
 # the auto-complete feature here.
@@ -899,9 +923,6 @@ plot<-ggplot(VaccinationRate, aes(x = ymd(date), y = fully_vaccinated, color = C
        title = "Vaccinations in Large Counties")
 
 #ymd(VaccinationRate$date)
-write.csv()
-save.image()
-saveRDS(plot,file="firstfigure.rds")
 
 plot<-readRDS(file="firstfigure.rds")
 plot
